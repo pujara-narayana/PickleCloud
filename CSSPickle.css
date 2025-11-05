@@ -1,0 +1,25 @@
+body {
+  background-color: #000000;
+  color: #000000;
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: 0%;
+  margin: 0px;
+}
+
+#link {
+  float: right;
+  margin-right: 100px;
+}
+
+#header {
+    background-color: blueviolet;
+    color:white;
+}
+
+h1{
+    margin-left: 10px;
+}
+
+
