@@ -34,7 +34,7 @@
         </p>
         <div class="hero-actions">
           <button class="primary-btn" id="ctaExplore">Explore Feed</button>
-          <button class="outline-btn" id="ctaNews">Latest News</button>
+          <button class="outline-btn" id="ctaAccount">Account</button>
         </div>
         <div class="hero-stats">
           <span>👥 1,284 players</span>
@@ -63,11 +63,6 @@
         <span class="card-tag">💬 Private Chats</span>
       </div>
 
-      <div class="card clickable" data-link="news.html">
-        <h3>Stay in the Loop</h3>
-        <p>Tournaments, rule updates, gear drops & more.</p>
-        <span class="card-tag">📰 Pickle News</span>
-      </div>
     </section>
   </main>
 
@@ -76,7 +71,7 @@
     <div class="modal-content">
       <button class="modal-close" id="closeModal">✕</button>
       <h2>Find a Match</h2>
-      <p>Filter and search will eventually hit your backend API.</p>
+      <p>Search and we will pair you with the most evenly match opponent</p>
       <form id="matchForm">
         <label>
           Skill level
@@ -95,8 +90,6 @@
 
         <button type="submit" class="primary-btn full-width">Search Matches</button>
       </form>
-      <p class="modal-note">On submit, you can call something like:
-        <code>GET /api/matches?skill=3.0&radius=10</code>
       </p>
     </div>
   </div>

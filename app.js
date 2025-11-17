@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   setupClickableCards();
   setupFeed();
   setupChats();
-  setupNews();
+  setupAccount();
 });
 
 /* THEME: apply stored preference on each page */
@@ -67,16 +67,16 @@ function showToast(message) {
 
 function setupHeroButtons() {
   const explore = document.getElementById("ctaExplore");
-  const news = document.getElementById("ctaNews");
+  const account = document.getElementById("ctaAccount");
 
   if (explore) {
     explore.addEventListener("click", () => {
       window.location.href = "feed.html";
     });
   }
-  if (news) {
-    news.addEventListener("click", () => {
-      window.location.href = "news.html";
+  if (account) {
+    account.addEventListener("click", () => {
+      window.location.href = "account.html";
     });
   }
 }
@@ -335,47 +335,74 @@ function appendChatMessage(container, msg) {
   container.scrollTop = container.scrollHeight;
 }
 
-/* NEWS PAGE */
+/* ACCOUNT PAGE */
 
-async function setupNews() {
-  const list = document.getElementById("newsList");
+async function setupAccount() {
+  const list = document.getElementById("settingList");
   if (!list) return;
 
   try {
-    const res = await fetch(`${API_BASE}/api/news`);
+    const res = await fetch(`${API_BASE}/api/account`);
     if (!res.ok) throw new Error();
-    const news = await res.json();
-    renderNews(list, news);
+    const account = await res.json();
+    renderAccount(list, account);
   } catch {
     const sample = [
       {
         id: 1,
-        title: "Local Pickleball League Expands to 24 Teams",
-        source: "PickleCloud Local",
-        time: "Today",
+        Setting: "Name",
+        CurrentData: "Rowley Favour",
       },
       {
         id: 2,
-        title: "USA Pickleball Announces Rule Updates for 2026 Season",
-        source: "USA Pickleball",
-        time: "2 days ago",
+        Setting: "Username",
+        CurrentData: "ThisIsMyFavour",
+      },
+      {
+        id: 3,
+        Setting: "Mobile Number",
+        CurrentData: "(402) 999-9999",
+      },
+      {
+        id: 4,
+        Setting: "Email",
+        CurrentData: "example@gmail.com",
+      },
+      {
+        id: 5,
+        Setting: "Birthday",
+        CurrentData: "01-01-2000",
+      },
+      {
+        id: 6,
+        Setting: "Password",
+        CurrentData: "********",
+      },
+      {
+        id: 7,
+        Setting: "Notification",
+        CurrentData: "Yes",
+      },
+      {
+        id: 8,
+        Setting: "Delete Account",
+        CurrentData: "",
       },
     ];
-    renderNews(list, sample);
+    renderAccount(list, sample);
   }
 }
 
-function renderNews(list, items) {
+function renderAccount(list, items) {
   list.innerHTML = "";
   items.forEach((item) => {
     const div = document.createElement("article");
     div.className = "post-card";
     div.innerHTML = `
       <div class="post-header">
-        <div class="post-user">${item.title}</div>
-        <div class="post-meta">${item.time ?? ""}</div>
+        <div class="post-user">${item.Setting}</div>
       </div>
-      <div class="post-body">${item.source ?? ""}</div>
+      <div class="post-body">${item.CurrentData ?? ""}</div>
     `;
     list.appendChild(div);
   });
