@@ -641,7 +641,7 @@ body.theme-light .modal-note code {
 .map{
   border-radius: 0.8rem;
   padding: 0.1rem 0.2rem;
-  background: linear-gradient(135deg, #02061757, #02071b1d);
+  background: linear-gradient(135deg, #23242893, #282a31d7);
   border: 1px solid var(--border);
   width: 955px;
 }
