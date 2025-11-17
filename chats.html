@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PickleCloud | Chats</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <h2 class="logo">🥒 PickleCloud</h2>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="feed.html">General Feed</a></li>
+      <li><a href="chats.html" class="active">Private Chats</a></li>
+      <li><a href="news.html">News</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button id="themeToggle" class="ghost-btn">🌙</button>
+    </div>
+  </nav>
+
+  <main class="container chat-layout">
+    <aside class="card chat-sidebar">
+      <h2 class="section-title">Conversations</h2>
+      <ul id="chatList" class="chat-list">
+        <!-- Filled by JS / backend -->
+      </ul>
+    </aside>
+
+    <section class="card chat-window">
+      <header class="chat-header">
+        <h2 id="chatTitle">Select a chat</h2>
+        <span id="chatMeta"></span>
+      </header>
+
+      <div id="chatMessages" class="chat-messages">
+        <p class="chat-placeholder">Choose a conversation on the left.</p>
+      </div>
+
+      <form id="chatForm" class="chat-input">
+        <input type="text" id="chatText" placeholder="Type a message..." disabled />
+        <button type="submit" class="primary-btn" disabled>Send</button>
+      </form>
+    </section>
+  </main>
+
+  <div id="toast" class="toast hidden"></div>
+</body>
+</html>

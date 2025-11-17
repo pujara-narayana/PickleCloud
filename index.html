@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PickleCloud | Home</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app.js"></script>
+</head>
+<body >
+  <header>
+    <nav class="navbar">
+      <h2 class="logo">🥒 PickleCloud</h2>
+      <ul>
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="feed.html">General Feed</a></li>
+        <li><a href="chats.html">Private Chats</a></li>
+        <li><a href="news.html">News</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button id="themeToggle" class="ghost-btn">🌙</button>
+        <button id="joinBtn" class="primary-btn">Join a Match</button>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <div class="hero-text">
+        <h1>Welcome to <span class="brand-text">PickleCloud</span></h1>
+        <p class="hero-sub">
+          The social hub for pickleball players. Find games, meet partners, and never miss a rally.
+        </p>
+        <div class="hero-actions">
+          <button class="primary-btn" id="ctaExplore">Explore Feed</button>
+          <button class="outline-btn" id="ctaNews">Latest News</button>
+        </div>
+        <div class="hero-stats">
+          <span>👥 1,284 players</span>
+          <span>🏓 312 active matches</span>
+          <span>⭐ Avg rating: 3.6</span>
+        </div>
+      </div>
+      <div class="hero-graphic">
+        <div class="ball"></div>
+        <div class="orbit orbit-1"></div>
+        <div class="orbit orbit-2"></div>
+        <p class="hero-tag">Next match in <strong>22 min</strong></p>
+      </div>
+    </section>
+
+    <section class="grid-3">
+      <div class="card clickable" data-link="feed.html">
+        <h3>Jump into the Feed</h3>
+        <p>See what local players are organizing and sharing right now.</p>
+        <span class="card-tag">📣 General Feed</span>
+      </div>
+
+      <div class="card clickable" data-link="chats.html">
+        <h3>Chat with Your Squad</h3>
+        <p>DM partners, plan games, and keep the trash-talk going.</p>
+        <span class="card-tag">💬 Private Chats</span>
+      </div>
+
+      <div class="card clickable" data-link="news.html">
+        <h3>Stay in the Loop</h3>
+        <p>Tournaments, rule updates, gear drops & more.</p>
+        <span class="card-tag">📰 Pickle News</span>
+      </div>
+    </section>
+  </main>
+
+  <!-- Simple "Join Match" modal -->
+  <div id="matchModal" class="modal hidden">
+    <div class="modal-content">
+      <button class="modal-close" id="closeModal">✕</button>
+      <h2>Find a Match</h2>
+      <p>Filter and search will eventually hit your backend API.</p>
+      <form id="matchForm">
+        <label>
+          Skill level
+          <select name="skill">
+            <option value="any">Any</option>
+            <option value="2.5">2.5–3.0</option>
+            <option value="3.0">3.0–3.5</option>
+            <option value="3.5">3.5–4.0</option>
+          </select>
+        </label>
+
+        <label>
+          Radius (miles)
+          <input type="number" name="radius" value="10" min="1" />
+        </label>
+
+        <button type="submit" class="primary-btn full-width">Search Matches</button>
+      </form>
+      <p class="modal-note">On submit, you can call something like:
+        <code>GET /api/matches?skill=3.0&radius=10</code>
+      </p>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <footer>
+    <p>© 2025 PickleCloud - A Subsidiary of Bong Cloud — All Rights Reserved.</p>
+  </footer>
+</body>
+</html>

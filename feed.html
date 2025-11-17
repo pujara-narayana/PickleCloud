@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>PickleCloud | Feed</title>
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="app.js"></script>
+</head>
+<body >
+  <nav class="navbar">
+    <h2 class="logo">🥒 PickleCloud</h2>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="feed.html" class="active">General Feed</a></li>
+      <li><a href="chats.html">Private Chats</a></li>
+      <li><a href="news.html">News</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button id="themeToggle" class="ghost-btn">🌙</button>
+    </div>
+  </nav>
+
+  <main class="container">
+    <header class="page-header">
+      <h1>Community Feed</h1>
+      <p>Organize games, post highlights, and hype up the best rallies.</p>
+    </header>
+
+    <section class="card">
+      <form id="newPostForm" class="inline-form">
+        <input
+          type="text"
+          id="postContent"
+          placeholder="Share a match, highlight, or invite..."
+          required
+        />
+        <button type="submit" class="primary-btn">Post</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2 class="section-title">Latest Posts</h2>
+      <div id="posts-container" class="posts-list">
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+        <div class="skeleton-card"></div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast hidden"></div>
+</body>
+</html>
