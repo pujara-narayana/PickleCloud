@@ -708,3 +708,29 @@ footer {
     background-position: 200% 0;
   }
 }
+
+.court-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.court-item {
+  border: 1px solid var(--border);
+  background: rgba(15, 23, 42, 0.6);
+  padding: 0.8rem;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.court-item:hover {
+  border-color: var(--accent-soft);
+  transform: translateY(-2px);
+}
+
+.court-item strong {
+  display: block;
+  color: var(--accent);
+}
