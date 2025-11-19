@@ -351,27 +351,27 @@ async function setupAccount() {
       {
         id: 1,
         Setting: "Name",
-        CurrentData: "Rowley Favour",
+        CurrentData: "John Doe",
       },
       {
         id: 2,
         Setting: "Username",
-        CurrentData: "ThisIsMyFavour",
+        CurrentData: "JohnDoe123",
       },
       {
         id: 3,
         Setting: "Mobile Number",
-        CurrentData: "(402) 999-9999",
+        CurrentData: "(123) 456-7890",
       },
       {
         id: 4,
         Setting: "Email",
-        CurrentData: "example@gmail.com",
+        CurrentData: "picklecloud@gmail.com",
       },
       {
         id: 5,
         Setting: "Birthday",
-        CurrentData: "01-01-2000",
+        CurrentData: "09-11-2001",
       },
       {
         id: 6,
@@ -398,15 +398,62 @@ function renderAccount(list, items) {
   items.forEach((item) => {
     const div = document.createElement("article");
     div.className = "post-card";
-    div.innerHTML = `
-      <div class="post-header">
-        <div class="post-user">${item.Setting}</div>
-      </div>
-      <div class="post-body">${item.CurrentData ?? ""}</div>
-    `;
+
+    // Special UI for Notification toggle
+    if (item.Setting === "Notification") {
+      div.innerHTML = `
+        <div class="post-header">
+          <div class="post-user">${item.Setting}</div>
+        </div>
+        <div class="post-body">
+          <label class="switch">
+            <input type="checkbox" id="notifToggle" ${item.CurrentData === "Yes" ? "checked" : ""}>
+            <span class="slider"></span>
+          </label>
+        </div>
+      `;
+    }
+
+    // Special UI for Delete Account button
+    else if (item.Setting === "Delete Account") {
+      div.innerHTML = `
+        <div class="post-header">
+          <div class="post-user">${item.Setting}</div>
+        </div>
+        <div class="post-body">
+          <button id="deleteAccountBtn" class="danger-btn">Delete Account</button>
+        </div>
+      `;
+    }
+
+    // Default standard rows
+    else {
+      div.innerHTML = `
+        <div class="post-header">
+          <div class="post-user">${item.Setting}</div>
+        </div>
+        <div class="post-body">${item.CurrentData ?? ""}</div>
+      `;
+    }
+
     list.appendChild(div);
   });
+
+  // Event handlers (if needed)
+  document.getElementById("notifToggle")?.addEventListener("change", (e) => {
+    const enabled = e.target.checked;
+    showToast(`Notifications ${enabled ? "enabled" : "disabled"}`);
+    // POST/PATCH to backend here when wired
+  });
+
+  document.getElementById("deleteAccountBtn")?.addEventListener("click", () => {
+    if (confirm("Are you sure you want to permanently delete your account?")) {
+      showToast("Request to delete account sent");
+      // DELETE /api/account  <-- backend eventually
+    }
+  });
 }
+
 
 /* UTIL */
 
