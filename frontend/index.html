@@ -67,30 +67,42 @@
   </main>
 
   <!-- Simple "Join Match" modal -->
-  <div id="matchModal" class="modal hidden">
+<div id="matchModal" class="modal hidden">
     <div class="modal-content">
       <button class="modal-close" id="closeModal">✕</button>
-      <h2>Find a Match</h2>
-      <p>Search and we will pair you with the most evenly match opponent</p>
-      <form id="matchForm">
-        <label>
-          Skill level
-          <select name="skill">
-            <option value="any">Any</option>
-            <option value="2.5">2.5–3.0</option>
-            <option value="3.0">3.0–3.5</option>
-            <option value="3.5">3.5–4.0</option>
-          </select>
-        </label>
 
-        <label>
-          Radius (miles)
-          <input type="number" name="radius" value="10" min="1" />
-        </label>
+      <div id="matchStep1">
+        <h2>Find a Match</h2>
+        <p class="modal-note">We'll pair you with a similar skill level.</p>
+        <form id="matchForm">
+          <label>
+            Skill level
+            <select name="skill">
+              <option value="3.0">3.0–3.5</option>
+              <option value="4.0">4.0+</option>
+            </select>
+          </label>
+          <label>
+            Radius (miles)
+            <input type="number" name="radius" value="10" min="1" />
+          </label>
+          <button type="submit" class="primary-btn full-width">Search Matches</button>
+        </form>
+      </div>
 
-        <button type="submit" class="primary-btn full-width">Search Matches</button>
-      </form>
-      </p>
+      <div id="matchStep2" class="hidden" style="text-align:center; padding:2rem;">
+        <div class="orbit orbit-1" style="position:relative; display:inline-block; width:40px; height:40px;"></div>
+        <p>Scanning local courts...</p>
+      </div>
+
+      <div id="matchStep3" class="hidden" style="text-align:center;">
+        <h2 style="color:var(--accent)">Match Found!</h2>
+        <p><strong>Opponent:</strong> Sarah J.</p>
+        <p><strong>Rating:</strong> 3.4</p>
+        <p><strong>Court:</strong> Lincoln Park Center</p>
+        <button class="primary-btn full-width" id="confirmMatchBtn">Accept Match</button>
+      </div>
+
     </div>
   </div>
 

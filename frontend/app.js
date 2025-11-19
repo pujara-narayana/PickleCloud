@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:5000"; // adjust to your backend
+const API_BASE = "http://localhost:8000"; // adjust to your backend
 
 document.addEventListener("DOMContentLoaded", () => {
   applyStoredTheme();
@@ -101,9 +101,19 @@ function setupMatchModal() {
   const closeBtn = document.getElementById("closeModal");
   const form = document.getElementById("matchForm");
 
+  // Steps elements (ensure these exist in your index.html as provided in the previous response)
+  const step1 = document.getElementById("matchStep1");
+  const step2 = document.getElementById("matchStep2");
+  const step3 = document.getElementById("matchStep3");
+  const confirmBtn = document.getElementById("confirmMatchBtn");
+
   if (!modal || !openBtn) return;
 
+  // Open Modal - Reset to Step 1
   openBtn.addEventListener("click", () => {
+    if(step1) step1.classList.remove("hidden");
+    if(step2) step2.classList.add("hidden");
+    if(step3) step3.classList.add("hidden");
     modal.classList.remove("hidden");
   });
 
@@ -111,19 +121,32 @@ function setupMatchModal() {
     modal.classList.add("hidden");
   });
 
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) modal.classList.add("hidden");
-  });
-
+  // Handle Search Logic
   form?.addEventListener("submit", (e) => {
     e.preventDefault();
-    const data = Object.fromEntries(new FormData(form).entries());
-    showToast(`Searching for ${data.skill} matches within ${data.radius}mi...`);
-    // Here you could call: GET `${API_BASE}/api/matches?skill=${data.skill}&radius=${data.radius}`
-    modal.classList.add("hidden");
+    // 1. Show Loading
+    step1.classList.add("hidden");
+    step2.classList.remove("hidden");
+
+    // 2. Wait 1.5 seconds then show Result (Simulating backend search)
+    setTimeout(() => {
+        step2.classList.add("hidden");
+        step3.classList.remove("hidden");
+    }, 1500);
+  });
+
+  // Handle Confirm Match (Task 2 -> Task 3 Transition)
+  confirmBtn?.addEventListener("click", () => {
+      // 1. Close modal
+      modal.classList.add("hidden");
+
+      // 2. Tell the browser we want to open the "Sarah J" chat
+      localStorage.setItem("openChatID", "new_match_sarah");
+
+      // 3. Redirect to chats page
+      window.location.href = "chats.html";
   });
 }
-
 /* FEED PAGE */
 
 async function setupFeed() {
@@ -133,32 +156,40 @@ async function setupFeed() {
 
   if (!container) return;
 
-  // Load posts from backend with fallback
-  try {
-    const res = await fetch(`${API_BASE}/api/posts`);
-    if (!res.ok) throw new Error("Failed to load");
-    const posts = await res.json();
-    renderPosts(container, posts);
-  } catch (err) {
-    // Fallback sample posts
-    const sample = [
-      {
-        id: 1,
-        username: "Jordan Diaz",
-        content: "Need 2 players for 3.0–3.5 doubles at Lincoln Courts tonight!",
-        createdAt: "2 min ago",
-        likes: 4,
-      },
-      {
-        id: 2,
-        username: "Aliyah Stone",
-        content: "Just played the longest rally of my life... 31 hits 🤯",
-        createdAt: "1 hr ago",
-        likes: 12,
-      },
-    ];
-    renderPosts(container, sample);
-  }
+  // HARDCODED POSTS (Task: Feed Depth)
+  const sample = [
+    {
+      id: 1,
+      username: "Jordan Diaz",
+      content: "Need 2 players for 3.0–3.5 doubles at Lincoln Courts tonight! 🏓",
+      createdAt: "2 min ago",
+      likes: 4,
+    },
+    {
+      id: 2,
+      username: "Aliyah Stone",
+      content: "Just played the longest rally of my life... 31 hits 🤯 #PickleballAddict",
+      createdAt: "1 hr ago",
+      likes: 12,
+    },
+    {
+      id: 3,
+      username: "Coach Mike",
+      content: "Tournament sign-ups for next Saturday are now OPEN. DM me for details.",
+      createdAt: "3 hrs ago",
+      likes: 25,
+    },
+    {
+        id: 4,
+        username: "Sarah J.",
+        content: "Anyone up for a quick match at Pine Lake? I'm rated 3.5.",
+        createdAt: "5 hrs ago",
+        likes: 8,
+    }
+  ];
+
+  // Render hardcoded posts immediately
+  renderPosts(container, sample);
 
   if (form && input) {
     form.addEventListener("submit", async (e) => {
@@ -166,27 +197,16 @@ async function setupFeed() {
       const text = input.value.trim();
       if (!text) return;
 
-      // POST to backend in real app
-      try {
-        await fetch(`${API_BASE}/api/posts`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ content: text }),
-        });
-      } catch {
-        // ignore error; just show locally
-      }
-
       const newPost = {
         id: Date.now(),
-        username: "You",
+        username: "You", // In a real app, this is the logged in user
         content: text,
         createdAt: "Just now",
         likes: 0,
       };
       prependPost(container, newPost);
       input.value = "";
-      showToast("Post created");
+      showToast("Post created successfully!");
     });
   }
 }
@@ -246,14 +266,18 @@ async function setupChats() {
 
   if (!list || !msgContainer) return;
 
-  // Load chat list from backend with fallback
-  let chats;
-  try {
-    const res = await fetch(`${API_BASE}/api/chats`);
-    if (!res.ok) throw new Error();
-    chats = await res.json();
-  } catch {
-    chats = [
+  // 1. Define Hardcoded Chats (including our Match Opponent "Sarah J.")
+  const chats = [
+      {
+        id: "new_match_sarah", // This ID matches what we set in setupMatchModal
+        name: "Sarah J. (Match Opponent)",
+        lastMessage: "Match Accepted! Let's play.",
+        timestamp: "Just now",
+        messages: [
+          { from: "system", text: "You matched with Sarah J. (Rating 3.4)" },
+          { from: "them", text: "Hey! I saw we matched at Lincoln Park. Does 6pm work?" },
+        ],
+      },
       {
         id: 1,
         name: "Doubles Crew",
@@ -273,28 +297,41 @@ async function setupChats() {
           { from: "them", text: "You’re playing court 3 this week." },
         ],
       },
-    ];
-  }
+  ];
 
+  // 2. Check if we need to auto-open a specific chat (from localStorage)
+  const autoOpenID = localStorage.getItem("openChatID");
+
+  // Render the list
   let activeChat = null;
 
   chats.forEach((chat) => {
     const li = document.createElement("li");
     li.className = "chat-item";
     li.dataset.id = chat.id;
+
+    // If this is the new match, highlight it distinctively
+    const isNew = (chat.id === "new_match_sarah");
     li.innerHTML = `
-      <strong>${chat.name}</strong>
+      <strong>${chat.name} ${isNew ? '✨' : ''}</strong>
       <small>${chat.lastMessage} • ${chat.timestamp}</small>
     `;
+
+    // Click Handler
     li.addEventListener("click", () => {
-      document
-        .querySelectorAll(".chat-item")
-        .forEach((x) => x.classList.remove("active"));
+      document.querySelectorAll(".chat-item").forEach((x) => x.classList.remove("active"));
       li.classList.add("active");
       activeChat = chat;
       renderChat(chat, title, meta, msgContainer, input, form);
     });
+
     list.appendChild(li);
+
+    // AUTO-OPEN LOGIC: If this matches our redirect ID, click it automatically!
+    if (autoOpenID === chat.id.toString()) {
+        li.click(); // Simulate click
+        localStorage.removeItem("openChatID"); // Clear it so it doesn't happen every time
+    }
   });
 
   if (form && input) {
@@ -304,12 +341,10 @@ async function setupChats() {
       const text = input.value.trim();
       if (!text) return;
 
-      // In real app, POST to /api/chats/:id/messages
       const msg = { from: "me", text };
       activeChat.messages.push(msg);
       appendChatMessage(msgContainer, msg);
       input.value = "";
-      showToast("Message sent");
     });
   }
 }
@@ -462,4 +497,16 @@ function escapeHtml(str = "") {
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
+}
+
+function selectCourt(element, courtName) {
+    // Remove active class from others
+    document.querySelectorAll('.court-item').forEach(el => el.style.borderColor = 'var(--border)');
+    document.querySelectorAll('.court-item').forEach(el => el.style.background = 'transparent');
+
+    // Add active style to clicked
+    element.style.borderColor = 'var(--accent)';
+    element.style.background = 'rgba(34, 197, 94, 0.1)';
+
+    showToast(`Home court set to: ${courtName}`);
 }
