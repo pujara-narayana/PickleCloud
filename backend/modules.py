@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base  # Updated import to use non-deprecated API
 
 Base = declarative_base()
 
@@ -25,3 +25,7 @@ class Chat(Base):
     last_message = Column(String)
     timestamp = Column(String)
     # In a real app, you'd have a separate Messages table linked here
+
+# SECURITY FIXES:
+# - Updated import to use 'from sqlalchemy.orm import declarative_base' instead of deprecated 'sqlalchemy.ext.declarative.declarative_base'
+# - Ensure all imports reference 'modules' (this file's name) instead of 'models' elsewhere in the codebase to avoid FILE_NAME_MISMATCH errors.

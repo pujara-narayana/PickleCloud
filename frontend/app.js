@@ -492,11 +492,15 @@ function renderAccount(list, items) {
 
 /* UTIL */
 
+// Expanded escapeHtml to also escape quotes and backticks to prevent XSS
 function escapeHtml(str = "") {
   return str
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")    // Escape double quotes
+    .replace(/'/g, "&#39;")     // Escape single quotes
+    .replace(/`/g, "&#96;");    // Escape backticks
 }
 
 function selectCourt(element, courtName) {
@@ -510,7 +514,5 @@ function selectCourt(element, courtName) {
 
     showToast(`Home court set to: ${courtName}`);
 }
-}
-jfkhbakjfblanfaf - tests f;sng;ks
-protectsus
-slnaflngla - test againnnnn {}
+
+// Removed extraneous closing brace and all random/dead text after the last function for syntax correctness and security.
