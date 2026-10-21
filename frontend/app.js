@@ -510,3 +510,6 @@ function selectCourt(element, courtName) {
 
     showToast(`Home court set to: ${courtName}`);
 }
+}
+jfkhbakjfblanfaf - tests f;sng;ks
+protectsus
